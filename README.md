@@ -174,7 +174,7 @@ Entering :
 * a description for the tournament
 * the kind of time control (Bullet (by default), Blitz or Speed)
 
-![Chess_Tournament_Manager_1 1_Create_Tournament py](https://user-images.githubusercontent.com/99419487/164946739-2fc4f07f-224e-40b9-98a0-113c503e2cac.png)
+![Chess_Tournament_Manager_1 1_Create_Tournament py](https://user-images.githubusercontent.com/99419487/167318232-5b6d1eeb-d082-4a12-80cc-074ff13f181c.png)
 
 Then, it asks you to select the player in the data base list of player and show you witch player is select until you reach the number max of player (8):
 
@@ -314,7 +314,7 @@ option 6 to back to the main menu.
 choose 1 to close the program or 2 to back to the main menu
 
 ***
-## Flake8-html reports
+## Flake8-html-reports
 ***
 
 In order to generate the flake8-html report, type the following command from the program folder :

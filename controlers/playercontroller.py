@@ -14,7 +14,7 @@ def create_player(serialized_player):
     player = Player(serialized_player['family_name'],
                     serialized_player['surname'],
                     serialized_player['date_of_birth'],
-                    serialized_player['sex'],
+                    serialized_player['gender'],
                     int(serialized_player['ranking']),
                     index_in_base=index_in_base
                     )
@@ -70,7 +70,7 @@ class PlayerController:
             string_item = "Sexe"
             updated_information = self.view.prompt_information_to_update(string_item)
             if valuechecker.is_valid_gender(updated_information):
-                player_to_update.sex = updated_information
+                player_to_update.gender = updated_information
                 could_be_updated = True
 
             else:
@@ -126,34 +126,99 @@ class PlayerController:
 
     def create_new_player(self):
         """ajoute un joueur a la base de joueur"""
-        wrong_message_string = ""
 
-        is_valid_information = True
+        """saisie des données de joueur"""
+        player_creation_display = {}
+        player_informations = {}
+        player_informations_completed = False
 
-        serialized_player = self.view.prompt_add_player_in_db()
+        while not player_informations_completed:
 
-        if not valuechecker.is_valid_date(serialized_player['date_of_birth']):
-            is_valid_information = False
-            wrong_message_string += f"Date de naissance : {serialized_player['date_of_birth']} \n"
+            player_name_done = False
+            while not player_name_done:
+                self.view.show_create_player_prompt(player_creation_display)
 
-        if not valuechecker.is_valid_gender(serialized_player['sex']):
-            is_valid_information = False
-            wrong_message_string += f"Sexe : {serialized_player['sex']} \n"
+                player_name = self.view.prompt_player_name()
+                confirmation = self.view.prompt_confirmation(player_name)
+                if confirmation == "o":
+                    player_informations['family_name'] = player_name
+                    player_creation_display['Nom de famille'] = player_name
+                    player_name_done = True
+                    player_informations_completed = True
+                else:
+                    player_informations_completed = False
 
-        if not valuechecker.is_valid_int(serialized_player['ranking']):
-            is_valid_information = False
-            wrong_message_string += f"Classement : {serialized_player['ranking']} \n"
+            player_surname_done = False
+            while not player_surname_done:
+                self.view.show_create_player_prompt(player_creation_display)
 
-        if is_valid_information:
+                player_surname = self.view.prompt_player_surname()
+                confirmation = self.view.prompt_confirmation(player_surname)
+                if confirmation == "o":
+                    player_informations['surname'] = player_surname
+                    player_creation_display['Prénom'] = player_surname
+                    player_surname_done = True
+                    player_informations_completed = True
+                else:
+                    player_informations_completed = False
 
-            created_player = create_player(serialized_player)
+            player_date_birth_done = False
+            while not player_date_birth_done:
+                self.view.show_create_player_prompt(player_creation_display)
+
+                date_answer = self.view.prompt_date_birth()
+                if valuechecker.is_valid_date(date_answer):
+                    confirmation = self.view.prompt_confirmation(date_answer)
+                    if confirmation == "o":
+                        player_informations['date_of_birth'] = date_answer
+                        player_creation_display['Date de naissance'] = date_answer
+                        player_date_birth_done = True
+                        player_informations_completed = True
+                    else:
+                        player_informations_completed = False
+                else:
+                    self.view.show_wrong_response(f"Date : {date_answer}")
+
+            player_gender_done = False
+            while not player_gender_done:
+                self.view.show_create_player_prompt(player_creation_display)
+
+                gender = self.view.prompt_player_gender()
+                if valuechecker.is_valid_gender(gender):
+                    confirmation = self.view.prompt_confirmation(gender)
+                    if confirmation == "o":
+                        player_informations['gender'] = gender
+                        player_creation_display['Sexe'] = gender
+                        player_gender_done = True
+                        player_informations_completed = True
+                    else:
+                        player_informations_completed = False
+                else:
+                    self.view.show_wrong_response(f"Sexe : {gender}")
+
+            player_ranking_done = False
+            while not player_ranking_done:
+                self.view.show_create_player_prompt(player_creation_display)
+
+                ranking = self.view.prompt_player_ranking()
+                if valuechecker.is_valid_int(ranking):
+                    confirmation = self.view.prompt_confirmation(ranking)
+                    if confirmation == "o":
+                        player_informations['ranking'] = ranking
+                        player_creation_display['Classement'] = ranking
+                        player_ranking_done = True
+                        player_informations_completed = True
+                    else:
+                        player_informations_completed = False
+                else:
+                    self.view.show_wrong_response(f"Classement : {ranking}")
+
+        if player_informations_completed:
+            created_player = create_player(player_informations)
 
             self.players_table.append(created_player)
             self.save_players()
             created_player.index_in_base = self.serialized_players_from_db[-1].doc_id
-
-        else:
-            self.view.show_wrong_response(wrong_message_string)
 
     def save_players(self):
         """sauvegarde la table des joueurs en base"""
@@ -165,7 +230,7 @@ class PlayerController:
                 "family_name": player.family_name,
                 "surname": player.surname,
                 "date_of_birth": player.date_of_birth,
-                "sex": player.sex,
+                "gender": player.gender,
                 "ranking": player.ranking
             }
 

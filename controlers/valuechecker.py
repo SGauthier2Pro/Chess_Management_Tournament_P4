@@ -51,7 +51,7 @@ def is_valid_int(int_to_test):
 
 
 def is_valid_gender(gender_to_test):
-    if gender_to_test in ["M", "F", "ND"]:
+    if gender_to_test in ["H", "F", "ND"]:
         return True
     else:
         return False

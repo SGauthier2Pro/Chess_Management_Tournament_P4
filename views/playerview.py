@@ -47,6 +47,16 @@ class PlayerView:
         print(f"{wrong_message_string}".center(CHARACTERS_BY_LINE))
         self.show_pause()
 
+    def prompt_confirmation(self, information_entry):
+        """affiche une demande de confirmation d'entrée"""
+        information_display = str(information_entry).replace("[]'", "")
+        confirmation = input(
+            f"Validez l'information entrée {information_display} (o:pour valider) : "
+        )
+        return confirmation
+
+    """ affichage du menu joueur"""
+
     def show_no_player_in_base(self):
         """affichier pas de joueur en base"""
         self.main_title()
@@ -88,29 +98,51 @@ class PlayerView:
 
         return menu_choice
 
-    def prompt_add_player_in_db(self):
-        """affiche les demande d'item pour créer un joueur"""
+    def show_create_player_prompt(self, player_display_informations):
+        """affiche le menu 2.1 : Créer un joueur"""
+
         self.cls()
         self.main_title()
         print("")
-        print("Creation d'un nouveau joueur :")
-        family_name = input("Nom de famille :")
-        surname = input("Prénom :")
-        date_birth = input("Date de naissance :")
-        sex = input("Sex (M ou F) :")
-        ranking = input("Entrer le classement du joueur :")
+        print("Creation d'un nouveau joueur".center(CHARACTERS_BY_LINE))
         print("")
         self.print_line()
+        print("Detail du joueur :")
+        for information_key, information_value in player_display_informations.items():
+            print(f"{information_key} : {information_value}")
+        self.print_line()
 
-        return {'family_name': family_name,
-                'surname': surname,
-                'date_of_birth': date_birth,
-                'sex': sex,
-                'total_points': 0,
-                'ranking': ranking
-                }
+    def prompt_player_name(self):
+        """affiche la demande du nom du joueur"""
+        family_name = input("Entrer le nom du joueur : ")
 
-    def prompt_add_another_player_in_db(self):
+        return family_name
+
+    def prompt_player_surname(self):
+        """affiche la demande du prénom du joueur"""
+        surname = input("Entrer le prénom du joueur : ")
+
+        return surname
+
+    def prompt_date_birth(self):
+        """affiche la demande de date de naissance du joueur"""
+        date_birth = input("Entrer la date de naissance du joueur : ")
+
+        return date_birth
+
+    def prompt_player_gender(self):
+        """affiche la demande du genre du joueur"""
+        gender = input("Entrer le sexe du joueur (H, F ou ND) : ")
+
+        return gender
+
+    def prompt_player_ranking(self):
+        """affiche la demande du classement du joueur"""
+        ranking = input("Entrer le classement du joueur : ")
+
+        return ranking
+
+    def prompt_create_another_player(self):
         """demande si on ajoute un nouveau joueur"""
         response_add_new_player = input("Voulez vous rentrer un nouveau joueur ? (o/n) :")
 
@@ -158,7 +190,7 @@ class PlayerView:
         print(f" 1 # Nom de Famille : {player.family_name}")
         print(f" 2 # Prénom : {player.surname}")
         print(f" 3 # Date de naissance : {date_string}")
-        print(f" 4 # Sexe : {player.sex}")
+        print(f" 4 # Sexe : {player.gender}")
         print(f" 5 # Classement : {player.ranking}")
         print(" 6 # Sortie du Menu")
         print("")

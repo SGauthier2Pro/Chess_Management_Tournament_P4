@@ -123,7 +123,8 @@ class TournamentView:
 
         self.main_title()
         print("")
-        print("Creation d'un nouveau tournoi")
+        print("Création d'un nouveau tournoi".center(CHARACTERS_BY_LINE))
+        print("")
         self.print_line()
         print("Detail du tournoi :")
         for information_key, information_value in tournament_diplay_informations.items():

@@ -114,7 +114,7 @@ class MainController:
 
                         while response_add_player != "n":
                             self.player_controller.create_new_player()
-                            response_add_player = self.view.prompt_add_another_player_in_db()
+                            response_add_player = self.player_controller.view.prompt_create_another_player()
 
                     elif player_menu_response == "2":
                         """menu 2.2 : Mise à jour d'un joueur"""
@@ -124,7 +124,7 @@ class MainController:
 
                             self.view.main_title()
                             self.player_controller.update_player()
-                            update_another_player = self.view.prompt_another_player()
+                            update_another_player = self.player_controller.view.prompt_another_player()
 
             elif main_menu_response == "3":
                 """Menu 3 : Rapport"""

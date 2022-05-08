@@ -145,7 +145,7 @@ class ReportView:
         print(f"    Nom de Famille : {player.family_name}")
         print(f"    Prénom : {player.surname}")
         print(f"    Date de naissance : {date_string}")
-        print(f"    Sexe : {player.sex}")
+        print(f"    Sexe : {player.gender}")
         print(f"    Classement : {player.ranking}")
         print("")
         self.print_line()

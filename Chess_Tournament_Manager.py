@@ -1,18 +1,18 @@
-from controlers.controller import Controller
+from controlers.maincontroller import MainController
 from controlers.datamanagement import TinyDBManagement
-from controlers.matchmanagement import SwissSystemManagementMatch
-from controlers.reports import Report
 
-from views.view import View
+from views.mainview import MainView
+from views.tournamentview import TournamentView
+from views.playerview import PlayerView
 
 
 def main():
-    view = View()
+    main_view = MainView()
+    tournament_view = TournamentView()
+    player_view = PlayerView()
     data_base = TinyDBManagement("Chess_Tournament_Manager_db.json")
-    match_management = SwissSystemManagementMatch()
-    report = Report()
 
-    main_controller = Controller(data_base, view, match_management, report)
+    main_controller = MainController(data_base, main_view, tournament_view, player_view)
 
     main_controller.run()
 

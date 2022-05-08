@@ -67,14 +67,21 @@ class MainController:
 
                     if tournament_menu_response == "1":
                         """Menu 1.1 Creer un tournoi"""
-                        self.tournament_controller.active_tournament = self.tournament_controller.create_new_tournament(
-                            self.player_controller
-                        )
+                        if self.player_controller.players_table:
+                            self.tournament_controller.active_tournament = \
+                                self.tournament_controller.create_new_tournament(
+                                    self.player_controller
+                                )
+                        else:
+                            self.player_controller.view.show_no_player_in_base()
 
                     elif tournament_menu_response == "2":
                         """menu 1.2: charger un tournoi"""
+                        if self.tournament_controller.tournaments_table:
+                            self.tournament_controller.active_tournament = self.tournament_controller.load_tournament()
 
-                        self.tournament_controller.active_tournament = self.tournament_controller.load_tournament()
+                        else:
+                            self.tournament_controller.view.show_no_tournament_in_base()
 
                     elif tournament_menu_response == "3":
                         """menu 1.3: Saisir des resultats"""
@@ -84,7 +91,7 @@ class MainController:
                                 self.turn_controller
                             )
                         else:
-                            self.view.show_no_active_tournament()
+                            self.tournament_controller.view.show_no_active_tournament()
 
                     elif tournament_menu_response == "4":
                         break
@@ -121,52 +128,60 @@ class MainController:
 
             elif main_menu_response == "3":
                 """Menu 3 : Rapport"""
-                reporting_menu_response = ""
+                if self.tournament_controller.tournaments_table and self.player_controller.players_table:
+                    reporting_menu_response = ""
 
-                while reporting_menu_response != "6":
+                    while reporting_menu_response != "6":
 
-                    reporting_menu_response = self.reports_controller.view.show_reporting_menu()
+                        reporting_menu_response = self.reports_controller.view.show_reporting_menu()
 
-                    if reporting_menu_response == "1":
-                        """3.1 : Liste de tous les joueurs de la base"""
-                        sorting_type = self.reports_controller.view.prompt_for_sorting_type()
+                        if reporting_menu_response == "1":
+                            """3.1 : Liste de tous les joueurs de la base"""
+                            if self.player_controller.players_table:
+                                sorting_type = self.reports_controller.view.prompt_for_sorting_type()
+                                self.reports_controller.list_players_reporting(
+                                    self.player_controller.players_table,
+                                    sorting_type
+                                )
+                                self.view.show_pause()
+                            else:
+                                self.player_controller.view.show_no_player_in_base()
 
-                        self.reports_controller.list_players_reporting(
-                            self.player_controller.players_table,
-                            sorting_type
-                        )
+                        elif reporting_menu_response == "2":
+                            """3.2 : Liste des joueurs d'un tournoi"""
+                            self.reports_controller.list_all_players_in_tournament_reporting(
+                                self.tournament_controller
+                            )
+                            self.view.show_pause()
 
-                        self.view.show_pause()
+                        elif reporting_menu_response == "3":
+                            """3 : Liste des tournois"""
+                            if self.tournament_controller.tournaments_table:
+                                self.view.main_title()
+                                self.reports_controller.list_of_tournaments_reporting(self.tournament_controller)
+                                self.view.show_pause()
+                            else:
+                                self.tournament_controller.view.show_no_tournament_in_base()
 
-                    elif reporting_menu_response == "2":
-                        """3.2 : Liste des joueurs d'un tournoi"""
-                        self.reports_controller.list_all_players_in_tournament_reporting(self.tournament_controller)
+                        elif reporting_menu_response == "4":
+                            """4 : Liste des tours d'un tournoi"""
+                            if self.tournament_controller.tournaments_table:
+                                self.view.main_title()
+                                self.reports_controller.turns_list_of_tournament(self.tournament_controller)
+                                self.view.show_pause()
+                            else:
+                                self.tournament_controller.view.show_no_tournament_in_base()
 
-                        self.view.show_pause()
-
-                    elif reporting_menu_response == "3":
-                        """3 : Liste des tournois"""
-
-                        self.view.main_title()
-
-                        self.reports_controller.list_of_tournaments_reporting(self.tournament_controller)
-
-                        self.view.show_pause()
-
-                    elif reporting_menu_response == "4":
-                        """4 : Liste des tours d'un tournoi"""
-                        self.view.main_title()
-
-                        self.reports_controller.turns_list_of_tournament(self.tournament_controller)
-
-                        self.view.show_pause()
-
-                    elif reporting_menu_response == "5":
-                        """5 : Liste des match d'un tournoi"""
-                        self.view.main_title()
-                        self.reports_controller.match_list_of_tournament_reporting(self.tournament_controller)
-                        self.view.show_pause()
-
+                        elif reporting_menu_response == "5":
+                            """5 : Liste des match d'un tournoi"""
+                            if self.tournament_controller.tournaments_table:
+                                self.view.main_title()
+                                self.reports_controller.match_list_of_tournament_reporting(self.tournament_controller)
+                                self.view.show_pause()
+                            else:
+                                self.tournament_controller.view.show_no_tournament_in_base()
+                else:
+                    self.reports_controller.view.show_no_info_in_base()
 
             elif main_menu_response == "4":
                 """Menu 4 : Sortie du programme"""

@@ -47,6 +47,15 @@ class PlayerView:
         print(f"{wrong_message_string}".center(CHARACTERS_BY_LINE))
         self.show_pause()
 
+    def show_no_player_in_base(self):
+        """affichier pas de joueur en base"""
+        self.main_title()
+        print("")
+        print("Impossible de créer un Tournoi !".center(CHARACTERS_BY_LINE))
+        print("Il n'y a pas de joueurs dans la base !".center(CHARACTERS_BY_LINE))
+        self.print_line()
+        self.show_pause()
+
     def show_main_menu(self):
         """Affiche le menu principal"""
         self.cls()

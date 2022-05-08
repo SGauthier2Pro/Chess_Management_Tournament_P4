@@ -240,12 +240,22 @@ class TournamentView:
         return is_winner
 
     def show_no_active_tournament(self):
-        """message stipulant qu'aucun tournoin'est chargé"""
+        """message stipulant qu'aucun tournoi n'est chargé"""
         self.cls()
         self.main_title()
         print("Aucun tournoi n'est chargé !!".center(CHARACTERS_BY_LINE))
         print("Choisissez le menu 1 : Créer un Tournoi ou 2 : Charger un tournoi".center(CHARACTERS_BY_LINE))
-        print("avant de saisir des résultat.".center(CHARACTERS_BY_LINE))
+        print("avant de saisir des résultats.".center(CHARACTERS_BY_LINE))
+        self.print_line()
+        self.show_pause()
+
+    def show_no_tournament_in_base(self):
+        """affiche pas de tournoi en base"""
+        self.cls()
+        self.main_title()
+        print("Aucun tournoi n'existe dans la base !!".center(CHARACTERS_BY_LINE))
+        print("Choisissez le menu 1 : Créer un Tournoi".center(CHARACTERS_BY_LINE))
+        print("avant de saisir des résultats.".center(CHARACTERS_BY_LINE))
         self.print_line()
         self.show_pause()
 

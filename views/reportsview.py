@@ -44,6 +44,15 @@ class ReportView:
         print(f"{wrong_message_string}".center(CHARACTERS_BY_LINE))
         self.show_pause()
 
+    def show_no_info_in_base(self):
+        """affiche pas de donnée dans la base"""
+        self.main_title()
+        print("")
+        print("Impossible de charger les rapport !".center(CHARACTERS_BY_LINE))
+        print("aucune donnée dans la base !".center(CHARACTERS_BY_LINE))
+        self.print_line()
+        self.show_pause()
+
     """affichage des rapports"""
 
     def show_reporting_menu(self):

@@ -234,13 +234,14 @@ Entering :
 * the family name
 * the surname
 * birthday date
+* gender
 * the ranking
 
-![Chess_Tournament_Manager_2 1_enter_new_player](https://user-images.githubusercontent.com/99419487/164948348-ac1cbdbd-5c34-4833-9edf-6d9b4af0c2a0.png)
+![Chess_Tournament_Manager_2 1_enter_new_player](https://user-images.githubusercontent.com/99419487/167318584-30bfd579-404e-4374-989b-e3ca6352d538.png)
 
 when all informations are entered, it asks you if you want to enter another player
 
-![Chess_Tournament_Manager_2 1_enter_another_player](https://user-images.githubusercontent.com/99419487/164948352-ff397c62-4a83-42f0-9e7f-43e829014d37.png)
+![Chess_Tournament_Manager_2 1_enter_another_player](https://user-images.githubusercontent.com/99419487/167318594-52b85c5a-ef38-4c38-a1d0-e296015d114f.png)
 
 2.2 Update player informations :
 

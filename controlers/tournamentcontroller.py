@@ -3,7 +3,6 @@
 from models.tournament import Tournament, TIME_CONTROL
 from controlers import valuechecker
 
-
 NUMBER_OF_PLAYERS = 8
 DEFAULT_TURNS_NUMBER_IN_TOURNAMENT = 4
 
@@ -69,54 +68,141 @@ class TournamentController:
     def create_new_tournament(self, player_controller):
         """crée un tournoi en base"""
 
-        tournament_informations = self.view.prompt_create_tournament()
+        """saisie des données de tournoi"""
+        tournament_creation_display = {}
+        tournament_informations = {}
+        tournament_informations_completed = False
 
-        """verification de données"""
-        wrong_message_string = ""
-        is_valid_data_tournament = True
+        while not tournament_informations_completed:
 
-        dates = (tournament_informations['tournament_date'][:-1]).split(",")
+            tournament_name_done = False
+            while not tournament_name_done:
+                self.view.show_create_tournament_prompt(tournament_creation_display)
 
-        for date in dates:
-            if not valuechecker.is_valid_date(date):
-                is_valid_data_tournament = False
-                wrong_message_string += f"Date : {tournament_informations['tournament_date']}\n"
+                tournament_name = self.view.prompt_tournament_name()
+                confirmation = self.view.prompt_confirmation(tournament_name)
+                if confirmation == "o":
+                    tournament_informations['tournament_name'] = tournament_name
+                    tournament_creation_display['Nom du tournoi'] = tournament_name
+                    tournament_name_done = True
+                    tournament_informations_completed = True
+                else:
+                    tournament_informations_completed = False
 
-        if not valuechecker.is_valid_int(tournament_informations['turns_number']):
-            is_valid_data_tournament = False
-            wrong_message_string += f"Nombre de tour : {tournament_informations['turns_number']}\n"
+            tournament_place_done = False
+            while not tournament_place_done:
+                self.view.show_create_tournament_prompt(tournament_creation_display)
 
-        if not valuechecker.is_valid_int(tournament_informations['time_control']):
-            is_valid_data_tournament = False
-            wrong_message_string += f"Control de Temps : {tournament_informations['time_control']}\n"
+                tournament_place = self.view.prompt_tournament_place()
+                confirmation = self.view.prompt_confirmation(tournament_place)
+                if confirmation == "o":
+                    tournament_informations['tournament_place'] = tournament_place
+                    tournament_creation_display['Lieu du Tournoi'] = tournament_place
+                    tournament_place_done = True
+                    tournament_informations_completed = True
+                else:
+                    tournament_informations_completed = False
 
-        """si données vérifiées"""
-        if is_valid_data_tournament:
-            index_time_control = int(tournament_informations['time_control']) - 1
-            tournament_informations['time_control'] = TIME_CONTROL[index_time_control]
+            tournament_date_done = False
+            while not tournament_date_done:
+                dates = []
+                dates_string = ""
+                another_date = True
 
-            if tournament_informations['turns_number'] == "":
-                tournament_informations['turns_number'] = DEFAULT_TURNS_NUMBER_IN_TOURNAMENT
+                while another_date:
+                    self.view.show_create_tournament_prompt(tournament_creation_display)
+                    date_answer = self.view.prompt_tournament_date()
+                    if valuechecker.is_valid_date(date_answer):
+                        if not valuechecker.compare_dates(dates, date_answer):
+                            dates.append(date_answer)
+                            confirmation = self.view.prompt_confirmation(date_answer)
+                            if confirmation == "o":
+                                tournament_informations['tournament_date'] = dates
+                                for date in dates:
+                                    dates_string = str(date) + ","
+                                tournament_creation_display['Date(s) du Tournoi'] = dates_string[:-1]
+                            another_date_answer = self.view.prompt_another_tournament_date()
+                            if another_date_answer == "n":
+                                another_date = False
+                                tournament_date_done = True
+                                tournament_informations_completed = True
+                            else:
+                                tournament_informations_completed = False
+                        else:
+                            self.view.show_wrong_response(f"Date : {date_answer} déja saisie pour ce tournoi !")
+                    else:
+                        self.view.show_wrong_response(f"Date : {date_answer}")
 
-            tournament_dates_string = (tournament_informations['tournament_date'])[:-1]
-            tournament_informations['tournament_date'] = tournament_dates_string.split(",")
+            turns_number_done = False
+            while not turns_number_done:
+                self.view.show_create_tournament_prompt(tournament_creation_display)
 
-            created_tournament = create_tournament(tournament_informations)
+                turns_number = self.view.prompt_tournament_turns_number()
 
-            """récupérer la liste des joueur du tournoi"""
-            tournaments_players_to_add = self.add_player_in_tournament(player_controller)
+                if turns_number == "":
+                    turns_number = DEFAULT_TURNS_NUMBER_IN_TOURNAMENT
 
-            for player in tournaments_players_to_add:
-                created_tournament.tournament_players.append(player)
+                if valuechecker.is_valid_int(turns_number):
+                    confirmation = self.view.prompt_confirmation(turns_number)
+                    if confirmation == "o":
+                        tournament_informations['turns_number'] = turns_number
+                        tournament_creation_display['Nombre de tours'] = turns_number
+                        turns_number_done = True
+                        tournament_informations_completed = True
+                    else:
+                        tournament_informations_completed = False
+                else:
+                    self.view.show_wrong_response(f"Nombre de tour : {turns_number}")
 
-            self.tournaments_table.append(created_tournament)
-            self.save_tournaments()
-            created_tournament.index_in_base = self.serialized_tournaments_from_db[-1].doc_id
+            tournament_description_done = False
+            while not tournament_description_done:
+                self.view.show_create_tournament_prompt(tournament_creation_display)
 
-            return created_tournament
+                tournament_description = self.view.prompt_tournament_description()
+                confirmation = self.view.prompt_confirmation(tournament_description)
+                if confirmation == "o":
+                    tournament_informations['tournament_description'] = tournament_description
+                    tournament_creation_display['Description'] = tournament_description
+                    tournament_description_done = True
+                    tournament_informations_completed = True
+                else:
+                    tournament_informations_completed = False
 
-        else:
-            self.view.show_wrong_response(wrong_message_string)
+            time_control_done = False
+            while not time_control_done:
+                self.view.show_create_tournament_prompt(tournament_creation_display)
+
+                time_control = self.view.prompt_tournament_time_control(TIME_CONTROL)
+                if valuechecker.is_valid_int(time_control):
+                    if int(time_control) < len(TIME_CONTROL):
+                        confirmation = self.view.prompt_confirmation(time_control)
+                        if confirmation == "o":
+                            tournament_informations['time_control'] = TIME_CONTROL[int(time_control)]
+                            time_control_done = True
+                            tournament_informations_completed = True
+                        else:
+                            tournament_informations_completed = False
+
+                    else:
+                        tournament_informations_completed = False
+                else:
+                    self.view.show_wrong_response(f"Control de Temps : {time_control}")
+
+            if tournament_informations_completed:
+
+                created_tournament = create_tournament(tournament_informations)
+
+                """récupérer la liste des joueur du tournoi"""
+                tournaments_players_to_add = self.add_player_in_tournament(player_controller)
+
+                for player in tournaments_players_to_add:
+                    created_tournament.tournament_players.append(player)
+
+                self.tournaments_table.append(created_tournament)
+                self.save_tournaments()
+                created_tournament.index_in_base = self.serialized_tournaments_from_db[-1].doc_id
+
+                return created_tournament
 
     def add_player_in_tournament(self, player_controller):
         """ajout des joueurs dans la liste pour le tournoi"""
@@ -136,7 +222,6 @@ class TournamentController:
             for player_to_test in all_players:
                 if player_to_test not in players_list_to_add:
                     if player_to_test.index_in_base == int(id_player):
-
                         players_list_to_add.append(player_to_test)
                         all_players.pop(all_players.index(player_to_test))
                         player_number += 1
@@ -152,7 +237,7 @@ class TournamentController:
         """charge un tournoi par son ID de base"""
 
         tournament_id = self.view.show_tournament_choice_menu(
-                self.tournaments_table)
+            self.tournaments_table)
 
         active_tournament = None
 
@@ -291,6 +376,3 @@ class TournamentController:
                     turn_controller.save_turns()
                     self.save_tournaments()
                     break
-
-
-

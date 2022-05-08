@@ -62,6 +62,14 @@ class TournamentView:
 
         return menu_choice
 
+    def prompt_confirmation(self, information_entry):
+        """affiche une demande de confirmation d'entrée"""
+        information_display = str(information_entry).replace("[]'", "")
+        confirmation = input(
+            f"Validez l'information entrée {information_display} (o:pour valider) : "
+        )
+        return  confirmation
+
     """Affichage Menu Tournoi"""
 
     def show_tournament_menu(self, tournament):
@@ -110,34 +118,63 @@ class TournamentView:
             count_player += 1
         print(list_to_show)
 
-    def prompt_create_tournament(self):
+    def show_create_tournament_prompt(self, tournament_diplay_informations):
         """affiche le menu 1.1 : Créer un nouveau tournoi"""
-
-        other_date_for_tournament = "o"
-        date = ""
 
         self.main_title()
         print("")
         print("Creation d'un nouveau tournoi")
-        name = input("Entrer le nom du tournoi : ")
-        place = input("Entrer le lieu du tournoi : ")
-        while other_date_for_tournament == "o":
-            date_answer = input("Entrer la date du tournoi : ")
-            date += date_answer + ","
-            other_date_for_tournament = input("Voulez-vous entrer une autre date ? ('o'=oui/'n'=non) : ")
-        turns_number = input("Entrer le mombre de tours du tournoi (4 par defaut): ") or 4
-        description = input("Enter la description du tournoi : ")
-        time_control = input("Entrer le Type de control de temps du tournoi "
-                             "(1: Bullet(par défaut), 2: Blitz ou 3: Rapide) : ") or "1"
+        self.print_line()
+        print("Detail du tournoi :")
+        for information_key, information_value in tournament_diplay_informations.items():
+            information_value = str(information_value).replace("[]'", "")
+            print(f"{information_key} : {information_value}")
         self.print_line()
 
-        return {'tournament_name': name,
-                'tournament_place': place,
-                'tournament_date': date,
-                'turns_number': turns_number,
-                'tournament_description': description,
-                'time_control': time_control
-                }
+    def prompt_tournament_name(self):
+        """affiche la demande du nom du tournoi"""
+        name = input("Entrer le nom du tournoi : ")
+
+        return name
+
+    def prompt_tournament_place(self):
+        """affiche la demande du lieu du tournoi"""
+        place = input("Entrer le lieu du tournoi : ")
+
+        return place
+
+    def prompt_tournament_date(self):
+        """affiche la demande d'une date pour le tournoi"""
+        date = input("Entrer la date du tournoi : ")
+
+        return date
+
+    def prompt_another_tournament_date(self):
+        """affiche la demande si autre date pour le tournoi"""
+        other_date_for_tournament = input("Voulez-vous entrer une autre date ? ('n'=non) : ")
+
+        return other_date_for_tournament
+
+    def prompt_tournament_turns_number(self):
+        """affiche la demande le nombre de tour du tournoi (4 par defaut)"""
+        turns_number = input("Entrer le mombre de tours du tournoi (4 par defaut): ") or 4
+
+        return turns_number
+
+    def prompt_tournament_description(self):
+        """affiche la demande d'une description pour le tournoi"""
+        description = input("Enter la description du tournoi : ")
+
+        return description
+
+    def prompt_tournament_time_control(self, time_controls):
+        """affiche la demande du controle de temps pour le tournoi"""
+        print("Type de control de temps du tournoi (0 par défaut)")
+        for time_control in time_controls:
+            print(f"{time_controls.index(time_control)}: {time_control}")
+        time_control = input("Entrer votre choix : ") or 0
+
+        return time_control
 
     def prompt_for_add_player(self):
         """entrer les indice de joueur"""

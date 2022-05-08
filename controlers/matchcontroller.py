@@ -41,5 +41,3 @@ def set_match_result(match, winner):
 
     match.player1.total_points += match.player1_score
     match.player2.total_points += match.player2_score
-
-

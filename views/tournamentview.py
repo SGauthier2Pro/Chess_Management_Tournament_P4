@@ -68,7 +68,7 @@ class TournamentView:
         confirmation = input(
             f"Validez l'information entrée {information_display} (o:pour valider) : "
         )
-        return  confirmation
+        return confirmation
 
     """Affichage Menu Tournoi"""
 
@@ -279,4 +279,3 @@ class TournamentView:
             print(result)
         self.print_line()
         self.show_pause()
-

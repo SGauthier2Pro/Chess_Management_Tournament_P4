@@ -25,19 +25,3 @@ def get_swiss_system_matches(tournament_players_list: List[Player], turn_name):
             match_list.append(Match(upper_ranking_players_list[i], lower_ranking_players_list[i]))
 
     return match_list
-
-
-def set_match_result(match, winner):
-    """implemente les scores selon le resultat du match"""
-    if winner == "1":
-        match.player1_score = 1.0
-
-    elif winner == "2":
-        match.player2_score = 1.0
-
-    else:
-        match.player1_score = 0.5
-        match.player2_score = 0.5
-
-    match.player1.total_points += match.player1_score
-    match.player2.total_points += match.player2_score

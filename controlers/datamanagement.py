@@ -1,14 +1,20 @@
 """gestion de base de donnée"""
+import os
 
 from tinydb import TinyDB
+import shutil
+from pathlib import Path
+from datetime import datetime
 
 
 class TinyDBManagement:
     """gestion des base en TinyDB"""
 
-    def __init__(self, db_file):
+    def __init__(self, db_file, main_directory):
         """Initialisation de la base TinyDB"""
-        self.data_base = TinyDB(db_file)
+        self.db_file = db_file
+        self.data_base = TinyDB(self.db_file)
+        self.main_directory = main_directory
 
         self.players_table = self.data_base.table('players')
         self.tournaments_table = self.data_base.table('tournaments')
@@ -52,3 +58,16 @@ class TinyDBManagement:
         """met a jour la table des tours"""
         self.players_table.truncate()
         self.players_table.insert_multiple(serialized_players_table)
+
+    def backup_db_file(self):
+        """créer une copie de la base"""
+        backup_directory = str(self.main_directory + "\\Backup")
+
+        if not Path(backup_directory).exists():
+            os.makedirs(Path(backup_directory))
+
+        file_source = str(self.main_directory + "\\" + self.db_file)
+        date_now = datetime.now().strftime("%d%m%Y_%H%M%S")
+        file_destination = str(backup_directory + "\\" + date_now + "_" + self.db_file)
+
+        shutil.copyfile(file_source, file_destination)

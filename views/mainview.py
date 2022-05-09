@@ -46,6 +46,16 @@ class MainView:
         print(f"{wrong_message_string}".center(CHARACTERS_BY_LINE))
         self.show_pause()
 
+    def prompt_confirmation(self, information_entry):
+        """affiche une demande de confirmation d'entrée"""
+        information_display = str(information_entry).replace("[]'", "")
+        confirmation = input(
+            f"Validez l'information entrée {information_display} (o:pour valider) : "
+        )
+        return confirmation
+
+    """affichage des menu du main controller"""
+
     def show_main_menu(self):
         """Affiche le menu principal"""
         self.cls()

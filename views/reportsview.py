@@ -33,7 +33,7 @@ class ReportView:
 
     def show_pause(self):
         """affiche une pause"""
-        input("appuyer sur entrer pour continuer :")
+        input("appuyer sur entrer pour continuer...")
 
     def show_wrong_response(self, wrong_message_string):
         """affiche si la réponse n'etait pas attendu"""

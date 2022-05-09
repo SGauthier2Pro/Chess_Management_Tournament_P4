@@ -68,10 +68,13 @@ class MainController:
                     if tournament_menu_response == "1":
                         """Menu 1.1 Creer un tournoi"""
                         if self.player_controller.players_table:
-                            self.tournament_controller.active_tournament = \
-                                self.tournament_controller.create_new_tournament(
-                                    self.player_controller
-                                )
+                            if len(self.player_controller.players_table) >= NUMBER_OF_PLAYERS:
+                                self.tournament_controller.active_tournament = \
+                                    self.tournament_controller.create_new_tournament(
+                                        self.player_controller
+                                    )
+                            else:
+                                self.player_controller.view.show_not_enough_players()
                         else:
                             self.player_controller.view.show_no_player_in_base()
 
@@ -110,25 +113,22 @@ class MainController:
 
                     if player_menu_response == "1":
                         """menu 2.1 : Entrer un nouveau joueur"""
-                        response_add_player = ""
 
-                        while response_add_player != "n":
-                            self.player_controller.create_new_player()
-                            response_add_player = self.player_controller.view.prompt_create_another_player()
+                        self.player_controller.create_new_player()
 
                     elif player_menu_response == "2":
                         """menu 2.2 : Mise à jour d'un joueur"""
 
-                        update_another_player = ""
-                        while update_another_player != "n":
+                        if self.player_controller.players_table:
 
-                            self.view.main_title()
                             self.player_controller.update_player()
-                            update_another_player = self.player_controller.view.prompt_another_player()
+
+                        else:
+                            self.player_controller.view.show_no_player_in_base()
 
             elif main_menu_response == "3":
                 """Menu 3 : Rapport"""
-                if self.tournament_controller.tournaments_table and self.player_controller.players_table:
+                if self.tournament_controller.tournaments_table or self.player_controller.players_table:
                     reporting_menu_response = ""
 
                     while reporting_menu_response != "6":
@@ -149,10 +149,13 @@ class MainController:
 
                         elif reporting_menu_response == "2":
                             """3.2 : Liste des joueurs d'un tournoi"""
-                            self.reports_controller.list_all_players_in_tournament_reporting(
-                                self.tournament_controller
-                            )
-                            self.view.show_pause()
+                            if self.tournament_controller.tournaments_table:
+                                self.reports_controller.list_all_players_in_tournament_reporting(
+                                    self.tournament_controller
+                                )
+                                self.view.show_pause()
+                            else:
+                                self.tournament_controller.view.show_no_tournament_in_base()
 
                         elif reporting_menu_response == "3":
                             """3 : Liste des tournois"""
@@ -188,6 +191,7 @@ class MainController:
                 exit_response = self.view.show_exit_menu()
 
                 if exit_response == "1":
+                    self.data_base.backup_db_file()
                     main_menu_response = "sortir du programme"
 
                 elif exit_response == "2":

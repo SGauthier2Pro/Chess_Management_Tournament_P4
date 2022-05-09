@@ -1,74 +1,12 @@
 """base de vue"""
 
-import os
+from views.mainview import MainView
 
 CHARACTERS_BY_LINE = 95
 
 
-class TournamentView:
-    """la vue"""
-
-    """ affichages globaux du programme"""
-
-    def cls(self):
-        """nettoie l'affichage"""
-        os.system('cls' if os.name == 'nt' else 'clear')
-
-    def main_title(self):
-        """affiche le bandeau principal du programme"""
-        title = "Chess Tournament Manager"
-        self.cls()
-        self.print_line()
-        print("")
-        print(title.center(CHARACTERS_BY_LINE))
-        print("")
-        self.print_line()
-
-    def print_line(self):
-        """ affiche une ligne de séparation"""
-        line_to_print = ""
-        characters_count = 0
-        while characters_count < CHARACTERS_BY_LINE:
-            line_to_print += "#"
-            characters_count += 1
-        print(line_to_print)
-
-    def show_pause(self):
-        """affiche une pause"""
-        input("appuyer sur entrer pour continuer :")
-
-    def show_wrong_response(self, wrong_message_string):
-        """affiche si la réponse n'etait pas attendu"""
-        self.main_title()
-        print("")
-        print("Entrée invalide !".center(CHARACTERS_BY_LINE))
-        print("")
-        print(f"{wrong_message_string}".center(CHARACTERS_BY_LINE))
-        self.show_pause()
-
-    def show_main_menu(self):
-        """Affiche le menu principal"""
-        self.cls()
-        self.main_title()
-        print("")
-        print("Menu Principal :")
-        print("     1 : Tournoi")
-        print("     2 : Gestion des Joueurs")
-        print("     3 : Rapport")
-        print("     4 : Quitter")
-        print("")
-        self.print_line()
-        menu_choice = input("Entrer votre choix : ")
-
-        return menu_choice
-
-    def prompt_confirmation(self, information_entry):
-        """affiche une demande de confirmation d'entrée"""
-        information_display = str(information_entry).replace("[]'", "")
-        confirmation = input(
-            f"Validez l'information entrée {information_display} (o:pour valider) : "
-        )
-        return confirmation
+class TournamentView(MainView):
+    """la vue hérité de MainView"""
 
     """Affichage Menu Tournoi"""
 
@@ -255,8 +193,7 @@ class TournamentView:
         self.cls()
         self.main_title()
         print("Aucun tournoi n'existe dans la base !!".center(CHARACTERS_BY_LINE))
-        print("Choisissez le menu 1 : Créer un Tournoi".center(CHARACTERS_BY_LINE))
-        print("avant de saisir des résultats.".center(CHARACTERS_BY_LINE))
+        print("Choisissez le menu 1 : Créer un Tournoi dans le menu Tournoi".center(CHARACTERS_BY_LINE))
         self.print_line()
         self.show_pause()
 

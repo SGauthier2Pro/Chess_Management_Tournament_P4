@@ -7,7 +7,7 @@ from pathlib import Path
 from datetime import datetime
 
 
-class TinyDBManagement:
+class TinyDBController:
     """gestion des base en TinyDB"""
 
     def __init__(self, db_file, main_directory):

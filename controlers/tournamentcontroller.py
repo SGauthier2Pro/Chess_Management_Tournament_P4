@@ -49,10 +49,10 @@ def create_tournament(serialized_tournament,
 class TournamentController:
     """Tournament Manager"""
 
-    def __init__(self, view, data_base, player_controller, turn_controller):
+    def __init__(self, tournament_view, data_base, player_controller, turn_controller):
         """initialistation du manager de tournoi avec vue"""
 
-        self.view = view
+        self.view = tournament_view
         self.data_base = data_base
         self.serialized_tournaments_from_db = self.data_base.get_all_tournaments()
 

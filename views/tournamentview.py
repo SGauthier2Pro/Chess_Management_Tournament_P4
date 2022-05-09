@@ -35,6 +35,15 @@ class TournamentView(MainView):
         print(f"Nombre de tour : {wrong_message_string}".center(CHARACTERS_BY_LINE))
         self.show_pause()
 
+    def show_date_allready_enter(self, wrong_message_string):
+        """affiche si id player inexistant"""
+        self.main_title()
+        print("")
+        print("Entrée invalide !".center(CHARACTERS_BY_LINE))
+        print("")
+        print(f"Date : {wrong_message_string} déja saisie pour ce tournoi !".center(CHARACTERS_BY_LINE))
+        self.show_pause()
+
     """Affichage Menu Tournoi"""
 
     def show_tournament_menu(self, tournament):
@@ -147,7 +156,7 @@ class TournamentView(MainView):
         player_index = input("entrer le numero du joueur : ")
         if not player_index:
             return None
-        return int(player_index)
+        return player_index
 
     def show_tournament_choice_menu(self, tournaments_table):
         """affiche le menu 1.2: charger un tournoi"""

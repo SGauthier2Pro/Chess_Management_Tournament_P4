@@ -106,20 +106,22 @@ class TournamentController:
             tournament_date_done = False
             while not tournament_date_done:
                 dates = []
-                dates_string = ""
                 another_date = True
 
                 while another_date:
+                    dates_string = ""
                     self.view.show_create_tournament_prompt(tournament_creation_display)
                     date_answer = self.view.prompt_tournament_date()
                     if valuechecker.is_valid_date(date_answer):
                         if not valuechecker.compare_dates(dates, date_answer):
-                            dates.append(date_answer)
                             confirmation = self.view.prompt_confirmation(date_answer)
                             if confirmation == "o":
+                                dates.append(date_answer)
                                 tournament_informations['tournament_date'] = dates
+
                                 for date in dates:
-                                    dates_string = str(date) + ","
+                                    dates_string += str(date) + ","
+
                                 tournament_creation_display['Date(s) du Tournoi'] = dates_string[:-1]
                             another_date_answer = self.view.prompt_another_tournament_date()
                             if another_date_answer == "n":
@@ -129,7 +131,7 @@ class TournamentController:
                             else:
                                 tournament_informations_completed = False
                         else:
-                            self.view.show_wrong_response(f"Date : {date_answer} déja saisie pour ce tournoi !")
+                            self.view.show_date_allready_enter(date_answer)
                     else:
                         self.view.show_wrong_date(date_answer)
 
@@ -184,6 +186,7 @@ class TournamentController:
                             tournament_informations_completed = False
 
                     else:
+                        self.view.show_wrong_time_control(time_control)
                         tournament_informations_completed = False
                 else:
                     self.view.show_wrong_time_control(time_control)
@@ -216,15 +219,23 @@ class TournamentController:
             self.view.main_title()
             player_controller.view.show_players_list(all_players)
             self.view.show_player_in_tournament(players_list_to_add)
+            id_player_found = False
 
             id_player = self.view.prompt_for_add_player()
+            if valuechecker.is_valid_int(id_player):
 
-            for player_to_test in all_players:
-                if player_to_test not in players_list_to_add:
-                    if player_to_test.index_in_base == int(id_player):
-                        players_list_to_add.append(player_to_test)
-                        all_players.pop(all_players.index(player_to_test))
-                        player_number += 1
+                for player_to_test in all_players:
+                    if player_to_test not in players_list_to_add:
+                        if player_to_test.index_in_base == int(id_player):
+                            id_player_found = True
+                            players_list_to_add.append(player_to_test)
+                            all_players.pop(all_players.index(player_to_test))
+                            player_number += 1
+
+                if not id_player_found:
+                    player_controller.view.show_wrong_player_id(id_player)
+            else:
+                self.view.show_wrong_response(id_player)
 
         self.view.main_title()
         player_controller.view.show_players_list(all_players)
@@ -235,22 +246,30 @@ class TournamentController:
 
     def load_tournament(self):
         """charge un tournoi par son ID de base"""
+        id_tournament_found = False
+        while not id_tournament_found:
 
-        tournament_id = self.view.show_tournament_choice_menu(
-            self.tournaments_table)
+            tournament_id = self.view.show_tournament_choice_menu(
+                self.tournaments_table)
 
-        active_tournament = None
+            active_tournament = None
+            if valuechecker.is_valid_int(tournament_id):
+                for tournament in self.tournaments_table:
+                    if tournament.index_in_base == int(tournament_id):
+                        id_tournament_found = True
+                        """récupère l'objet tournoi"""
+                        active_tournament = tournament
 
-        for tournament in self.tournaments_table:
-            if tournament.index_in_base == int(tournament_id):
-                """récupère l'objet tournoi"""
-                active_tournament = tournament
+                        """réaffecte les point des joueurs du tournoi"""
+                        for player in active_tournament.tournament_players:
+                            player.total_points = self.get_player_total_points(player, active_tournament)
 
-                """réaffecte les point des joueurs du tournoi"""
-                for player in active_tournament.tournament_players:
-                    player.total_points = self.get_player_total_points(player, active_tournament)
-
-        return active_tournament
+                if not id_tournament_found:
+                    self.view.show_wrong_tournament_id(tournament_id)
+                else:
+                    return active_tournament
+            else:
+                self.view.show_wrong_response(tournament_id)
 
     def save_tournaments(self):
         """ajoute le tournoi au tableau de tournoi"""

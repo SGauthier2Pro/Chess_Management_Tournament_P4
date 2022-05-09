@@ -89,7 +89,7 @@ class PlayerController:
         if could_be_updated:
             self.save_players()
         else:
-            self.view.show_wrong_response(f"{string_item} : {updated_information}\n")
+            self.view.show_wrong_item(string_item, updated_information)
 
     def update_player(self):
         """menu mise a jour d'un joueur"""
@@ -127,13 +127,13 @@ class PlayerController:
                                     update_another_player_item = "n"
 
                                 else:
-                                    self.view.show_wrong_response(f"{item_to_modify} n'est pas une choix valide !")
+                                    self.view.show_wrong_response(item_to_modify)
 
                     if not id_player_found:
-                        self.view.show_wrong_response(f"{id_player} n'est pas un indice de joueur !")
+                        self.view.show_wrong_player_id(id_player)
 
                 else:
-                    self.view.show_wrong_response(f"{id_player} n'est pas une réponse integer valide !")
+                    self.view.show_wrong_response(id_player)
 
             self.view.main_title()
             update_another_player = self.view.prompt_another_player()
@@ -194,7 +194,7 @@ class PlayerController:
                         else:
                             player_informations_completed = False
                     else:
-                        self.view.show_wrong_response(f"Date : {date_answer}")
+                        self.view.show_wrong_date(date_answer)
 
                 player_gender_done = False
                 while not player_gender_done:
@@ -211,7 +211,7 @@ class PlayerController:
                         else:
                             player_informations_completed = False
                     else:
-                        self.view.show_wrong_response(f"Sexe : {gender}")
+                        self.view.show_wrong_gender(gender)
 
                 player_ranking_done = False
                 while not player_ranking_done:
@@ -228,7 +228,7 @@ class PlayerController:
                         else:
                             player_informations_completed = False
                     else:
-                        self.view.show_wrong_response(f"Classement : {ranking}")
+                        self.view.show_wrong_ranking(ranking)
 
             if player_informations_completed:
                 created_player = create_player(player_informations)

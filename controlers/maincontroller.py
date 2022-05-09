@@ -100,7 +100,7 @@ class MainController:
                         pass
 
                     else:
-                        self.view.show_wrong_response(f"{tournament_menu_response} n'est pas un choix valide !")
+                        self.view.show_wrong_response(tournament_menu_response)
 
             elif main_menu_response == "2":
                 """menu 2 : Gestion des joueurs"""
@@ -130,7 +130,7 @@ class MainController:
                         pass
 
                     else:
-                        self.view.show_wrong_response(f"{player_menu_response} n'est pas un choix valide !")
+                        self.view.show_wrong_response(player_menu_response)
 
             elif main_menu_response == "3":
                 """Menu 3 : Rapport"""
@@ -192,7 +192,7 @@ class MainController:
                             pass
 
                         else:
-                            self.view.show_wrong_response(f"{reporting_menu_response} n'est pas un choix valide !")
+                            self.view.show_wrong_response(reporting_menu_response)
                 else:
                     self.reports_controller.view.show_no_info_in_base()
 
@@ -207,7 +207,7 @@ class MainController:
                 elif exit_response == "2":
                     pass
                 else:
-                    self.view.show_wrong_response(f"{exit_response} n'est pas un choix valide !")
+                    self.view.show_wrong_response(exit_response)
             else:
                 """reponse non valide"""
-                self.view.show_wrong_response(f"{main_menu_response} n'est pas un choix valide !")
+                self.view.show_wrong_response(main_menu_response)

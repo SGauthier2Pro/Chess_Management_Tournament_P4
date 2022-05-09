@@ -29,6 +29,42 @@ class PlayerView(MainView):
         self.print_line()
         self.show_pause()
 
+    def show_wrong_player_id(self, wrong_message_string):
+        """affiche si id player inexistant"""
+        self.main_title()
+        print("")
+        print("Entrée invalide !".center(CHARACTERS_BY_LINE))
+        print("")
+        print(f"{wrong_message_string} n'est pas un indice de joueur existant !".center(CHARACTERS_BY_LINE))
+        self.show_pause()
+
+    def show_wrong_gender(self, wrong_message_string):
+        """affiche si sexe erronée"""
+        self.main_title()
+        print("")
+        print("Entrée invalide !".center(CHARACTERS_BY_LINE))
+        print("")
+        print(f"Sexe : {wrong_message_string}".center(CHARACTERS_BY_LINE))
+        self.show_pause()
+
+    def show_wrong_item(self, string_item, updated_information):
+        """affiche si player item erronée"""
+        self.main_title()
+        print("")
+        print("Entrée invalide !".center(CHARACTERS_BY_LINE))
+        print("")
+        print(f"{string_item} : {updated_information}".center(CHARACTERS_BY_LINE))
+        self.show_pause()
+
+    def show_wrong_ranking(self, wrong_message_string):
+        """affiche si sexe erronée"""
+        self.main_title()
+        print("")
+        print("Entrée invalide !".center(CHARACTERS_BY_LINE))
+        print("")
+        print(f"Classement : {wrong_message_string}".center(CHARACTERS_BY_LINE))
+        self.show_pause()
+
     """Affichage du menu joueur"""
 
     def show_players_menu(self):

@@ -43,7 +43,16 @@ class MainView:
         print("")
         print("Entrée invalide !".center(CHARACTERS_BY_LINE))
         print("")
-        print(f"{wrong_message_string}".center(CHARACTERS_BY_LINE))
+        print(f"{wrong_message_string} n'est pas un choix possible !".center(CHARACTERS_BY_LINE))
+        self.show_pause()
+
+    def show_wrong_date(self, wrong_message_string):
+        """affiche si date erronée"""
+        self.main_title()
+        print("")
+        print("Entrée invalide !".center(CHARACTERS_BY_LINE))
+        print("")
+        print(f"Date : {wrong_message_string}".center(CHARACTERS_BY_LINE))
         self.show_pause()
 
     def prompt_confirmation(self, information_entry):

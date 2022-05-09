@@ -8,6 +8,33 @@ CHARACTERS_BY_LINE = 95
 class TournamentView(MainView):
     """la vue hérité de MainView"""
 
+    def show_wrong_tournament_id(self, wrong_message_string):
+        """affiche si id player inexistant"""
+        self.main_title()
+        print("")
+        print("Entrée invalide !".center(CHARACTERS_BY_LINE))
+        print("")
+        print(f"{wrong_message_string} n'est pas un indice de tournoi existant !".center(CHARACTERS_BY_LINE))
+        self.show_pause()
+
+    def show_wrong_time_control(self, wrong_message_string):
+        """affiche si id player inexistant"""
+        self.main_title()
+        print("")
+        print("Entrée invalide !".center(CHARACTERS_BY_LINE))
+        print("")
+        print(f"Control de Temps : {wrong_message_string}".center(CHARACTERS_BY_LINE))
+        self.show_pause()
+
+    def show_wrong_turn_number(self, wrong_message_string):
+        """affiche si id player inexistant"""
+        self.main_title()
+        print("")
+        print("Entrée invalide !".center(CHARACTERS_BY_LINE))
+        print("")
+        print(f"Nombre de tour : {wrong_message_string}".center(CHARACTERS_BY_LINE))
+        self.show_pause()
+
     """Affichage Menu Tournoi"""
 
     def show_tournament_menu(self, tournament):

@@ -131,7 +131,7 @@ class TournamentController:
                         else:
                             self.view.show_wrong_response(f"Date : {date_answer} déja saisie pour ce tournoi !")
                     else:
-                        self.view.show_wrong_response(f"Date : {date_answer}")
+                        self.view.show_wrong_date(date_answer)
 
             turns_number_done = False
             while not turns_number_done:
@@ -152,7 +152,7 @@ class TournamentController:
                     else:
                         tournament_informations_completed = False
                 else:
-                    self.view.show_wrong_response(f"Nombre de tour : {turns_number}")
+                    self.view.show_wrong_turn_number(turns_number)
 
             tournament_description_done = False
             while not tournament_description_done:
@@ -186,7 +186,7 @@ class TournamentController:
                     else:
                         tournament_informations_completed = False
                 else:
-                    self.view.show_wrong_response(f"Control de Temps : {time_control}")
+                    self.view.show_wrong_time_control(time_control)
 
             if tournament_informations_completed:
 

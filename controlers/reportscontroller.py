@@ -51,9 +51,9 @@ class ReportsController:
                         self.list_players_reporting(tournament.tournament_players)
 
                 if not id_tournament_found:
-                    self.view.show_wrong_response(f"{tournament_id} n'est pas un indice de tournoi !")
+                    tournament_controller.view.show_wrong_tournament_id(tournament_id)
             else:
-                self.view.show_wrong_response(f"ID de tournoi : {tournament_id}")
+                self.view.show_wrong_response(tournament_id)
 
     def list_of_tournaments_reporting(self, tournament_controller):
         """rapport listant tous les tournois de la base avec détails"""
@@ -83,12 +83,10 @@ class ReportsController:
                             self.view.show_turn_details_reporting(turn)
 
                 if not id_tournament_found:
-                    self.view.show_wrong_response(f"{tournament_id} n'est pas un indice de tournoi !")
+                    tournament_controller.view.show_wrong_tournament_id(tournament_id)
 
             else:
-                self.view.show_wrong_response(
-                    f"ID de tournoi : {tournament_id} n'est pas un choix valide !"
-                )
+                self.view.show_wrong_response(tournament_id)
 
     def match_list_of_tournament_reporting(self, tournament_controller):
         """rapport listant les matchs d'un tournoi"""
@@ -116,9 +114,7 @@ class ReportsController:
                                 self.view.show_match_details_reporting(match)
 
                 if not id_tournament_found:
-                    self.view.show_wrong_response(f"{tournament_id} n'est pas un indice de tournoi !")
+                    tournament_controller.view.show_wrong_tournament_id(tournament_id)
 
             else:
-                self.view.show_wrong_response(
-                    f"ID de tournoi : {tournament_id} n'est pas un choix valide !"
-                )
+                self.view.show_wrong_response(tournament_id)

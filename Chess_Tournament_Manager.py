@@ -1,5 +1,5 @@
 from controlers.maincontroller import MainController
-from controlers.datamanagement import TinyDBManagement
+from controlers.tinydbmanagement import TinyDBManagement
 
 from views.mainview import MainView
 from views.tournamentview import TournamentView

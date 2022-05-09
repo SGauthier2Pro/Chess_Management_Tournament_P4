@@ -1,48 +1,13 @@
 """vue des rapport"""
 
-import os
+from views.mainview import MainView
 
 CHARACTERS_BY_LINE = 95
 
 
-class ReportView:
-    """ affichages globaux du programme"""
+class ReportView(MainView):
 
-    def cls(self):
-        """nettoie l'affichage"""
-        os.system('cls' if os.name == 'nt' else 'clear')
-
-    def main_title(self):
-        """affiche le bandeau principal du programme"""
-        title = "Chess Tournament Manager"
-        self.cls()
-        self.print_line()
-        print("")
-        print(title.center(CHARACTERS_BY_LINE))
-        print("")
-        self.print_line()
-
-    def print_line(self):
-        """ affiche une ligne de séparation"""
-        line_to_print = ""
-        characters_count = 0
-        while characters_count < CHARACTERS_BY_LINE:
-            line_to_print += "#"
-            characters_count += 1
-        print(line_to_print)
-
-    def show_pause(self):
-        """affiche une pause"""
-        input("appuyer sur entrer pour continuer...")
-
-    def show_wrong_response(self, wrong_message_string):
-        """affiche si la réponse n'etait pas attendu"""
-        self.main_title()
-        print("")
-        print("Entrée invalide !".center(CHARACTERS_BY_LINE))
-        print("")
-        print(f"{wrong_message_string}".center(CHARACTERS_BY_LINE))
-        self.show_pause()
+    """affichage des rapports"""
 
     def show_no_info_in_base(self):
         """affiche pas de donnée dans la base"""
@@ -52,8 +17,6 @@ class ReportView:
         print("aucune donnée dans la base !".center(CHARACTERS_BY_LINE))
         self.print_line()
         self.show_pause()
-
-    """affichage des rapports"""
 
     def show_reporting_menu(self):
         """affiche le menu 3 : Rapport"""

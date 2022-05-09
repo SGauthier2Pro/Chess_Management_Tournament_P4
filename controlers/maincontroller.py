@@ -97,7 +97,7 @@ class MainController:
                             self.tournament_controller.view.show_no_active_tournament()
 
                     elif tournament_menu_response == "4":
-                        break
+                        pass
 
                     else:
                         self.view.show_wrong_response(f"{tournament_menu_response} n'est pas un choix valide !")
@@ -126,6 +126,12 @@ class MainController:
                         else:
                             self.player_controller.view.show_no_player_in_base()
 
+                    elif player_menu_response == "3":
+                        pass
+
+                    else:
+                        self.view.show_wrong_response(f"{player_menu_response} n'est pas un choix valide !")
+
             elif main_menu_response == "3":
                 """Menu 3 : Rapport"""
                 if self.tournament_controller.tournaments_table or self.player_controller.players_table:
@@ -138,10 +144,8 @@ class MainController:
                         if reporting_menu_response == "1":
                             """3.1 : Liste de tous les joueurs de la base"""
                             if self.player_controller.players_table:
-                                sorting_type = self.reports_controller.view.prompt_for_sorting_type()
                                 self.reports_controller.list_players_reporting(
-                                    self.player_controller.players_table,
-                                    sorting_type
+                                    self.player_controller.players_table
                                 )
                                 self.view.show_pause()
                             else:
@@ -183,6 +187,12 @@ class MainController:
                                 self.view.show_pause()
                             else:
                                 self.tournament_controller.view.show_no_tournament_in_base()
+
+                        elif reporting_menu_response == "6":
+                            pass
+
+                        else:
+                            self.view.show_wrong_response(f"{reporting_menu_response} n'est pas un choix valide !")
                 else:
                     self.reports_controller.view.show_no_info_in_base()
 

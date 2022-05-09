@@ -147,7 +147,7 @@ class TournamentController:
                 if valuechecker.is_valid_int(turns_number):
                     confirmation = self.view.prompt_confirmation(turns_number)
                     if confirmation == "o":
-                        tournament_informations['turns_number'] = turns_number
+                        tournament_informations['turns_number'] = int(turns_number)
                         tournament_creation_display['Nombre de tours'] = turns_number
                         turns_number_done = True
                         tournament_informations_completed = True
@@ -337,7 +337,7 @@ class TournamentController:
                     turn_controller.active_turn = turn
                     turn_number -= 1
 
-        if turn_number == 4:
+        if turn_number == self.active_tournament.turns_number:
             self.view.show_tournament_terminated(self.active_tournament)
 
         while turn_number < int(self.active_tournament.turns_number):
@@ -388,7 +388,7 @@ class TournamentController:
 
                     turn_controller.active_turn = None
 
-                    if turn_number == 4:
+                    if turn_number == self.active_tournament.turns_number:
                         self.get_tournament_result(self.active_tournament)
 
                 else:
